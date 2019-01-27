@@ -33,9 +33,8 @@ public:
                 {'z', "2"}
         };
 
-        auto it = encodings.find(letter);
-
-        return it == encodings.end() ? "" : it->second;
+        auto it = encodings.find(lower(letter));
+        return it == encodings.end() ? NotADigit : it->second;
     }
 
     std::string upperFront(const std::string &string) const {
@@ -44,36 +43,44 @@ public:
     }
 
 private:
-    std::string tail(const std::string &word) const {
+    const std::string NotADigit{"*"};
+
+    char lower(char c) const {
+        return std::tolower(static_cast<unsigned char>(c));
+    }
+
+    std::string tail(const std::string& word) const {
         return word.substr(1);
     }
 
-    std::string head(const std::string &word) const {
+    std::string head(const std::string& word) const {
         return word.substr(0, 1);
     }
 
-    std::string lastDigit(const std::string &encoding) const {
-        if (encoding.empty()) return "";
-        return std::string(1, encoding.back());
-    }
-
-    std::string encodedDigits(const std::string &word) const {
+    std::string encodedDigits(const std::string& word) const {
         std::string encoding;
         for (auto letter: word) {
             if (isComplete(encoding)) break;
-            if (encodedDigit(letter) != lastDigit(encoding))
-                encoding += encodedDigit(letter);
+
+            auto digit = encodedDigit(letter);
+            if (  digit != NotADigit && digit != lastDigit(encoding))
+                encoding += digit;
         }
         return encoding;
     }
 
-    bool isComplete(const std::string &encoding) const {
+    std::string lastDigit(const std::string& encoding) const {
+        if (encoding.empty()) return NotADigit;
+        return std::string(1, encoding.back());
+    }
+
+    bool isComplete(const std::string& encoding) const {
         return encoding.length() == MaxCodeLength - 1;
     }
 
     static const size_t MaxCodeLength{4};
 
-    std::string zeroPad(const std::string &word) const {
+    std::string zeroPad(const std::string& word) const {
         auto zerosNeeded = MaxCodeLength - word.length();
         return word + std::string(zerosNeeded, '0');
     }
