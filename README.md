@@ -1,4 +1,4 @@
-# cpp-baazel-tdd-template
+# tdd_in_cpp_with_bazel
 TDD in C++ with bazel build
 
 ## Build Status
@@ -18,4 +18,3 @@ just has a the list of dependencies
 ### BUILD
 a build file needs to be places in all source dir see specifc `cc_` file
 for [more information](https://docs.bazel.build/versions/master/be/c-cpp.html)
-

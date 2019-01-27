@@ -31,12 +31,10 @@
 *.out
 *.app
 
-
+# Ide
 .idea
 
-#bazel
-
-
+# Bazel
 bazel-bin
 bazel-genfiles
 bazel-out
