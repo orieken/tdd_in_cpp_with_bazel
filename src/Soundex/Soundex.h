@@ -7,8 +7,8 @@
 class Soundex {
 
 public:
-    std::string encode(const std::string &word) const {
-        return zeroPad(upperFront(head(word)) + encodedDigits(tail(word)));
+    std::string encode(const std::string& word) const {
+        return zeroPad(upperFront(head(word)) + tail(encodedDigits(word)));
     }
 
     std::string encodedDigit(char letter) const {
@@ -49,38 +49,48 @@ private:
         return std::tolower(static_cast<unsigned char>(c));
     }
 
-    std::string tail(const std::string& word) const {
+    std::string tail(const std::string &word) const {
         return word.substr(1);
     }
 
-    std::string head(const std::string& word) const {
+    std::string head(const std::string &word) const {
         return word.substr(0, 1);
     }
 
     std::string encodedDigits(const std::string& word) const {
         std::string encoding;
-        for (auto letter: word) {
-            if (isComplete(encoding)) break;
+        encodeHead(encoding, word);
+        encodeTail(encoding, word);
 
-            auto digit = encodedDigit(letter);
-            if (  digit != NotADigit && digit != lastDigit(encoding))
-                encoding += digit;
-        }
         return encoding;
     }
 
-    std::string lastDigit(const std::string& encoding) const {
+    void encodeHead(std::string& encoding, const std::string& word) const {
+        encoding += encodedDigit(word.front());
+    }
+
+    void encodeTail(std::string& encoding, const std::string& word) const {
+        for (auto letter: tail(word)) {
+            if (isComplete(encoding)) break;
+
+            auto digit = encodedDigit(letter);
+            if (digit != NotADigit && digit != lastDigit(encoding))
+                encoding += digit;
+        }
+    }
+
+    std::string lastDigit(const std::string &encoding) const {
         if (encoding.empty()) return NotADigit;
         return std::string(1, encoding.back());
     }
 
     bool isComplete(const std::string& encoding) const {
-        return encoding.length() == MaxCodeLength - 1;
+        return encoding.length() == MaxCodeLength;
     }
 
     static const size_t MaxCodeLength{4};
 
-    std::string zeroPad(const std::string& word) const {
+    std::string zeroPad(const std::string &word) const {
         auto zerosNeeded = MaxCodeLength - word.length();
         return word + std::string(zerosNeeded, '0');
     }

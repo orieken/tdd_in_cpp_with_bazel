@@ -53,3 +53,7 @@ TEST_F(SoundexEncoding, CombinesDuplicateEncodings) {
 TEST_F(SoundexEncoding, IgnoresCaseWhenEncodingConstanants) {
     ASSERT_THAT(soundex.encode("BCDL"), Eq(soundex.encode("Bcdl")));
 }
+
+TEST_F(SoundexEncoding, CombinesDuplicateCodesWhen2ndLetterDuplicates1st) {
+  ASSERT_THAT(soundex.encode("Bbcd"), Eq("B230"));
+}
