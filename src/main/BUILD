@@ -3,6 +3,6 @@ cc_binary(
     name = "main",
     srcs = ["main.cpp"],
     deps = [
-        "//src/soundex:Soundex",
+        "//src/Soundex:Soundex",
         ],
 )

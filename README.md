@@ -2,7 +2,7 @@
 TDD in C++ with bazel build
 
 ## Build Status
-[![Build Status](https://travis-ci.com/orieken/cpp-baazel-tdd-template.svg?branch=master)](https://travis-ci.com/orieken/cpp-baazel-tdd-template)
+[![Build Status](https://travis-ci.com/orieken/tdd_in_cpp_with_bazel.svg?branch=master)](https://travis-ci.com/orieken/tdd_in_cpp_with_bazel)
 
 # Building
 * build: `bazel build ...`
