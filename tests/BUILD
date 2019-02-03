@@ -4,6 +4,7 @@ cc_test(
     srcs = glob(["**/*.cpp"]),
     deps = [
         "//src/Soundex:Soundex",
+        "//src/RetweetCollection:RetweetCollection",
         "@googletest//:gtest_main",
     ],
 )
