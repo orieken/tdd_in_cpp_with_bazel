@@ -7,7 +7,7 @@
 class Soundex {
 
 public:
-    std::string encode(const std::string& word) const {
+    std::string encode(const std::string &word) const {
         return zeroPad(upperFront(head(word)) + tail(encodedDigits(word)));
     }
 
@@ -57,7 +57,7 @@ private:
         return word.substr(0, 1);
     }
 
-    std::string encodedDigits(const std::string& word) const {
+    std::string encodedDigits(const std::string &word) const {
         std::string encoding;
         encodeHead(encoding, word);
         encodeTail(encoding, word);
@@ -65,18 +65,22 @@ private:
         return encoding;
     }
 
-    void encodeHead(std::string& encoding, const std::string& word) const {
+    void encodeHead(std::string &encoding, const std::string &word) const {
         encoding += encodedDigit(word.front());
     }
 
-    void encodeTail(std::string& encoding, const std::string& word) const {
-        for (auto letter: tail(word)) {
-            if (isComplete(encoding)) break;
-
-            auto digit = encodedDigit(letter);
-            if (digit != NotADigit && digit != lastDigit(encoding))
-                encoding += digit;
+    void encodeTail(std::string &encoding, const std::string &word) const {
+        for (auto i = 1u; i < word.length(); i++) {
+            if (!isComplete(encoding))
+                encodeLetter(encoding, word[i], word[i - 1]);
         }
+    }
+
+    void encodeLetter(std::string &encoding, char letter, char lastLetter) const {
+        auto digit = encodedDigit(letter);
+        if (digit != NotADigit &&
+            (digit != lastDigit(encoding) || isVowel(lastLetter)))
+            encoding += digit;
     }
 
     std::string lastDigit(const std::string &encoding) const {
@@ -84,8 +88,12 @@ private:
         return std::string(1, encoding.back());
     }
 
-    bool isComplete(const std::string& encoding) const {
+    bool isComplete(const std::string &encoding) const {
         return encoding.length() == MaxCodeLength;
+    }
+
+    bool isVowel(char letter) const {
+        return std::string("aeiouy").find(lower(letter)) != std::string::npos;
     }
 
     static const size_t MaxCodeLength{4};
