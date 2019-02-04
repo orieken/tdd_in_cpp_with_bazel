@@ -5,14 +5,17 @@
 using namespace ::testing;
 
 class ARetweetCollection: public Test {
-public: RetweetCollection collection;
+public:
+    RetweetCollection collection;
 };
 
-MATCHER_P(HasSize, expected, ""){
-    return
-    arg.size() == expected &&
-    arg.isEmpty() == (0 == expected);
-}
+class ARetweetCollectionWithOneTweet: public Test {
+public:
+    RetweetCollection collection;
+    void SetUp() override {
+        collection.add(Tweet());
+    }
+};
 
 TEST_F(ARetweetCollection, IsEmptyWhenCreated) {
     ASSERT_TRUE(collection.isEmpty());
@@ -28,8 +31,10 @@ TEST_F(ARetweetCollection, HasSizeZeroWhenCreated) {
 ASSERT_THAT(collection.size(), Eq(0u));
 }
 
-TEST_F(ARetweetCollection, HasSizeOfOneAfterTweetAdded) {
-    collection.add(Tweet());
+TEST_F(ARetweetCollectionWithOneTweet, isNoLongerEmpty) {
+    ASSERT_FALSE(collection.isEmpty());
+}
 
+TEST_F(ARetweetCollectionWithOneTweet, HasSizeOfOne) {
     ASSERT_THAT(collection.size(), Eq(1u));
 }
