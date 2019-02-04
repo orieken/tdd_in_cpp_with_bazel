@@ -5,6 +5,7 @@ cc_test(
     deps = [
         "//src/Soundex:Soundex",
         "//src/RetweetCollection:RetweetCollection",
+        "//src/Tweet:Tweet",
         "@googletest//:gtest_main",
     ],
 )
